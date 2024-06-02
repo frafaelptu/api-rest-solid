@@ -32,7 +32,8 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
       return null
     }
 
-    return checkInOnSameDate
+    // Clonar objeto para não afetar o objeto no array quando alterado fora por referência
+    return structuredClone(checkInOnSameDate)
   }
 
   async create(data: Prisma.CheckInUncheckedCreateInput) {
@@ -46,6 +47,6 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
 
     this.checkInsInMemory.push(checkIn)
 
-    return checkIn
+    return { ...checkIn }
   }
 }

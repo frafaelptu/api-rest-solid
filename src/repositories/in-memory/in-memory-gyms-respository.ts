@@ -34,7 +34,7 @@ export class InMemoryGymsRepository implements GymsRepository {
 
     if (!gym) return null
 
-    return gym
+    return { ...gym }
   }
 
   async create(data: Prisma.GymCreateInput) {
@@ -50,6 +50,7 @@ export class InMemoryGymsRepository implements GymsRepository {
 
     this.gymsInMemory.push(gym)
 
-    return gym
+    // retornar novo objeto para não afetar o objeto no array quando alterado fora por referência
+    return { ...gym }
   }
 }

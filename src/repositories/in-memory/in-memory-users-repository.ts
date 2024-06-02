@@ -10,7 +10,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     if (!user) return null
 
-    return user
+    return { ...user }
   }
 
   async findByEmail(email: string) {
@@ -18,7 +18,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     if (!user) return null
 
-    return user
+    return { ...user }
   }
 
   async create(data: Prisma.UserCreateInput) {
@@ -32,6 +32,6 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     this.usersInMemory.push(user)
 
-    return user
+    return { ...user }
   }
 }
