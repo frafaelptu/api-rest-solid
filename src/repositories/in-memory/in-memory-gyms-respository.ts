@@ -2,10 +2,17 @@ import { Gym, Prisma } from '@prisma/client'
 import { GymsRepository } from '../gyms-repository'
 import { Decimal } from '@prisma/client/runtime/library'
 import { randomUUID } from 'crypto'
-import { title } from 'process'
 
 export class InMemoryGymsRepository implements GymsRepository {
   public gymsInMemory: Gym[] = []
+
+  async findManyByQuery(query: string, page: number) {
+    const gyms = this.gymsInMemory
+      .filter((gym) => gym.title.includes(query))
+      .slice((page - 1) * 20, page * 20)
+
+    return gyms
+  }
 
   async findById(id: string) {
     const gym = this.gymsInMemory.find((gym) => gym.id === id)
