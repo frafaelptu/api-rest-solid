@@ -1,10 +1,29 @@
-import { Prisma } from '@prisma/client'
+import { CheckIn, Prisma } from '@prisma/client'
 import { CheckInsRepository } from '../check-ins-repository'
 import { prisma } from '@/lib/prisma'
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-foud-error'
 import dayjs from 'dayjs'
 
 export class PrismaCheckInsRepository implements CheckInsRepository {
+  async save(data: CheckIn) {
+    const checkIn = await prisma.checkIn.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    })
+
+    return checkIn
+  }
+
+  async findById(id: string) {
+    return await prisma.checkIn.findUnique({
+      where: {
+        id,
+      },
+    })
+  }
+
   async findManyByUserId(userId: string, page: number) {
     const checkIn = await prisma.checkIn.findMany({
       where: {
