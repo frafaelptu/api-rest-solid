@@ -24,6 +24,7 @@ export class GetUserProfileUseCase {
       throw new ResourceNotFoundError()
     }
 
+
     return { user }
   }
 }
