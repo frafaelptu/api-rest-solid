@@ -5,26 +5,25 @@ import { env } from './env'
 import fastifyJwt from '@fastify/jwt'
 
 export const app = fastify()
-
-app.register(fastifyJwt, {
-  secret: env.JWT_SECRET,
-})
+// app.register(fastifyJwt, {
+//   secret: env.JWT_SECRET,
+// })
 
 app.register(appRoutes)
 
-app.setErrorHandler((error, _, reply) => {
-  if (error instanceof ZodError) {
-    console.error(error)
-    reply
-      .status(400)
-      .send({ message: 'Validation error', issues: error.format() })
-  }
+// app.setErrorHandler((error, _, reply) => {
+//   if (error instanceof ZodError) {
+//     console.error(error)
+//     reply
+//       .status(400)
+//       .send({ message: 'Validation error', issues: error.format() })
+//   }
 
-  if (env.NODE_ENV !== 'production') {
-    console.error(error)
-  } else {
-    // TODO: Send error to monitoring service Datado/ NewRelic, Sentry etc
-  }
+//   if (env.NODE_ENV !== 'production') {
+//     console.error(error)
+//   } else {
+//     // TODO: Send error to monitoring service Datado/ NewRelic, Sentry etc
+//   }
 
-  return reply.status(500).send({ message: 'Internal server error.' })
-})
+//   return reply.status(500).send({ message: 'Internal server error.' })
+// })
