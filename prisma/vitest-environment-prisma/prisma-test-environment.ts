@@ -35,14 +35,13 @@ export default <Environment>{
     console.log(process.env.DATABASE_URL)
 
     return {
-      teardown() {},
-      // async teardown() {
-      //   await prisma.$executeRawUnsafe(
-      //     `DROP SCHEMA IF EXISTS "${schema}" CASCADE`,
-      //   )
+      async teardown() {
+        await prisma.$executeRawUnsafe(
+          `DROP SCHEMA IF EXISTS "${schema}" CASCADE`,
+        )
 
-      //   await prisma.$disconnect()
-      // },
+        await prisma.$disconnect()
+      },
     }
   },
 }
