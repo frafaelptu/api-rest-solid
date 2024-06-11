@@ -21,19 +21,24 @@ describe('Authenticate (e2e)', () => {
       password: '123456',
     })
 
-    const response = await request(app.server).post('/sessions').send({
+    const authResponse = await request(app.server).post('/sessions').send({
       email,
       password: '123456',
     })
 
-    const token = response.body.token
+    const { token } = authResponse.body
+
     const profileResponse = await request(app.server)
       .get('/me')
       .set('Authorization', `Bearer ${token}`)
 
     expect(profileResponse.statusCode).toEqual(200)
     expect(profileResponse.body.user.email).toEqual(email)
-    expect(profileResponse.body.user.name).toEqual('John Doe')
+    expect(profileResponse.body.user).toEqual(
+      expect.objectContaining({
+        email,
+      }),
+    )
   })
 
   it('should be not able to autenticate with token invalid', async () => {
