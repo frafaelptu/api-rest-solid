@@ -4,6 +4,7 @@ import { ZodError } from 'zod'
 import { env } from './env'
 import fastifyJwt from '@fastify/jwt'
 import { gymsRoutes } from './http/controllers/gyms/routes'
+import { checkInsRoutes } from './http/controllers/check-ins/routes'
 
 export const app = fastify()
 app.register(fastifyJwt, {
@@ -12,6 +13,7 @@ app.register(fastifyJwt, {
 
 app.register(usersRoutes)
 app.register(gymsRoutes)
+app.register(checkInsRoutes)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
@@ -24,6 +26,7 @@ app.setErrorHandler((error, _, reply) => {
   if (env.NODE_ENV !== 'production') {
     console.error(error)
   } else {
+    console.error(error)
     // TODO: Send error to monitoring service Datado/ NewRelic, Sentry etc
   }
 

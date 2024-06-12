@@ -1,4 +1,5 @@
 import { app } from '@/app'
+import { createAndAuthenticateUser } from '@/utils/test/create-and-authenticate-user'
 import request from 'supertest'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
@@ -15,18 +16,7 @@ describe('Authenticate (e2e)', () => {
 
   it('should be able to get profile with upon token valid', async () => {
     const email = 'johndoe@example.com'
-    await request(app.server).post('/users').send({
-      name: 'John Doe',
-      email,
-      password: '123456',
-    })
-
-    const authResponse = await request(app.server).post('/sessions').send({
-      email,
-      password: '123456',
-    })
-
-    const { token } = authResponse.body
+    const { token } = await createAndAuthenticateUser(app)
 
     const profileResponse = await request(app.server)
       .get('/me')
@@ -42,20 +32,11 @@ describe('Authenticate (e2e)', () => {
   })
 
   it('should be not able to autenticate with token invalid', async () => {
-    await request(app.server).post('/users').send({
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: '123456',
-    })
-
-    const response = await request(app.server).post('/sessions').send({
-      email: 'johndoe@example.com',
-      password: '123456',
-    })
+    const { token } = await createAndAuthenticateUser(app)
 
     const profileResponse = await request(app.server)
       .get('/me')
-      .set('Authorization', `Bearer ${response.body.token}invalid`)
+      .set('Authorization', `Bearer ${token}invalid`)
 
     expect(profileResponse.statusCode).toEqual(401)
     expect(profileResponse.body.message).toEqual('Unauthorized.')
