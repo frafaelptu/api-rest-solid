@@ -5,7 +5,7 @@ import request from 'supertest'
 
 export async function createAndAuthenticateUser(
   app: FastifyInstance,
-  // isAdmin = false,
+  isAdmin = false,
 ) {
   const email = 'johndoe@example.com'
 
@@ -21,7 +21,7 @@ export async function createAndAuthenticateUser(
         name: 'John Doe',
         email,
         password_hash: await hash('123456', 6),
-        // role: isAdmin ? 'ADMIN' : 'MEMBER',
+        role: isAdmin ? 'ADMIN' : 'MEMBER',
       },
     })
   }
