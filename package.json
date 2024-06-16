@@ -2,9 +2,6 @@
   "name": "api-rest-solid",
   "version": "1.0.0",
   "main": "index.js",
-  
-  
-
   "scripts": {
     "start:dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
@@ -40,6 +37,7 @@
     "vitest": "1.6.0"
   },
   "dependencies": {
+    "@fastify/cookie": "9.3.1",
     "@fastify/jwt": "8.0.1",
     "@prisma/client": "5.10.0",
     "bcryptjs": "2.4.3",
